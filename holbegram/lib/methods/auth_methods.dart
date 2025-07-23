@@ -57,7 +57,7 @@ class AuthMethode {
         email: email,
         username: username,
         bio: "",
-        photoUrl: "", // sera défini plus tard
+        photoUrl: "",
         followers: [],
         following: [],
         posts: [],
@@ -73,5 +73,13 @@ class AuthMethode {
     }
 
     return res;
+  }
+
+  // GET USER DETAILS
+  Future<Users> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+    return Users.fromSnap(snap);
   }
 }
