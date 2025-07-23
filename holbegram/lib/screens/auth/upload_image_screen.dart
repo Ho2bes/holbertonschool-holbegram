@@ -1,13 +1,16 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:holbegram/screens/login_screen.dart';
+import 'package:holbegram/methods/auth_methods.dart';
+import 'methods/user_storage.dart';
 
-class AddPicture extends StatefulWidget {
+class UploadImageScreen extends StatefulWidget {
   final String email;
-  final String password;
   final String username;
+  final String password;
 
-  const AddPicture({
+  const UploadImageScreen({
     super.key,
     required this.email,
     required this.password,
@@ -15,75 +18,88 @@ class AddPicture extends StatefulWidget {
   });
 
   @override
-  State<AddPicture> createState() => _AddPictureState();
+  State<UploadImageScreen> createState() => _UploadImageScreenState();
 }
 
-class _AddPictureState extends State<AddPicture> {
+class _UploadImageScreenState extends State<UploadImageScreen> {
   Uint8List? _image;
 
-  Future<void> selectImageFromGallery() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final bytes = await pickedFile.readAsBytes();
+  void selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      final imageBytes = await picked.readAsBytes();
       setState(() {
-        _image = bytes;
+        _image = imageBytes;
       });
     }
   }
 
-  Future<void> selectImageFromCamera() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      final bytes = await pickedFile.readAsBytes();
+  void selectImageFromCamera() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.camera);
+    if (picked != null) {
+      final imageBytes = await picked.readAsBytes();
       setState(() {
-        _image = bytes;
+        _image = imageBytes;
       });
+    }
+  }
+
+  void signUp() async {
+    if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select an image")));
+      return;
+    }
+
+    String res = await AuthMethode().signUpUser(
+      email: widget.email,
+      password: widget.password,
+      username: widget.username,
+      file: _image!,
+    );
+
+    if (!mounted) return;
+    if (res == "success") {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Success")));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
+      appBar: AppBar(title: const Text('Upload Image')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
             children: [
-              const SizedBox(height: 20),
-              const Text("Holbegram", style: TextStyle(fontFamily: 'Billabong', fontSize: 50)),
-              const SizedBox(height: 10),
-              const Text("Hello, John Doe Welcome to Holbegram."),
-              const Text("Choose an image from your gallery or take a new one."),
-              const SizedBox(height: 20),
-              _image != null
-                  ? CircleAvatar(radius: 64, backgroundImage: MemoryImage(_image!))
-                  : const Icon(Icons.account_circle, size: 120),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.image, size: 40, color: Colors.red),
-                    onPressed: selectImageFromGallery,
-                  ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    icon: const Icon(Icons.camera_alt, size: 40, color: Colors.red),
-                    onPressed: selectImageFromCamera,
-                  ),
-                ],
+              CircleAvatar(
+                radius: 64,
+                backgroundImage: _image != null ? MemoryImage(_image!) : null,
+                child: _image == null ? const Icon(Icons.person, size: 64) : null,
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(218, 226, 37, 24),
+              Positioned(
+                bottom: -10,
+                left: 80,
+                child: IconButton(
+                  onPressed: selectImageFromGallery,
+                  icon: const Icon(Icons.add_a_photo),
                 ),
-                child: const Text("Next", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 20),
+          Text(widget.username, style: const TextStyle(fontSize: 20)),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: signUp,
+            child: const Text("Next"),
+          ),
+        ],
       ),
     );
   }
