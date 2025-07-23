@@ -1,15 +1,15 @@
-import 'package:flutter/foundation.dart';
-import 'package:holbegram/models/user.dart';
-import 'package:holbegram/methods/auth_methods.dart';
+import 'package:flutter/material.dart';
+import '../models/user.dart'; 
+import '../methods/auth_methods.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  Users? _user;
   final AuthMethode _authMethode = AuthMethode();
 
-  User? get getUser => _user;
+  Users get getUser => _user!;
 
   Future<void> refreshUser() async {
-    User user = await _authMethode.getUserDetails();
+    Users user = await _authMethode.getUserDetails();
     _user = user;
     notifyListeners();
   }
