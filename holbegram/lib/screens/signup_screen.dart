@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/text_field.dart';
-import 'login_screen.dart'; // pour le retour
+import 'login_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -40,8 +40,6 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 28),
-
-            // Titre
             const Text(
               'Holbegram',
               style: TextStyle(
@@ -49,23 +47,18 @@ class _SignUpState extends State<SignUp> {
                 fontSize: 50,
               ),
             ),
-
             Image.asset(
               'assets/images/logo.png',
               width: 80,
               height: 60,
             ),
-
             const SizedBox(height: 16),
-
             const Text(
               'Sign up to see photos and videos from your friends.',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black87),
             ),
-
             const SizedBox(height: 28),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -76,18 +69,14 @@ class _SignUpState extends State<SignUp> {
                     hintText: 'Email',
                     keyboardType: TextInputType.emailAddress,
                   ),
-
                   const SizedBox(height: 20),
-
                   TextFieldInput(
                     controller: usernameController,
                     isPassword: false,
                     hintText: 'Full Name',
                     keyboardType: TextInputType.name,
                   ),
-
                   const SizedBox(height: 20),
-
                   TextFieldInput(
                     controller: passwordController,
                     isPassword: !_passwordVisible,
@@ -106,9 +95,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   TextFieldInput(
                     controller: passwordConfirmController,
                     isPassword: !_passwordVisible,
@@ -127,9 +114,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-
                   const SizedBox(height: 28),
-
                   SizedBox(
                     height: 48,
                     width: double.infinity,
@@ -140,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       onPressed: () {
-                        // TODO: signup logic plus tard
+                        // signup logic
                       },
                       child: const Text(
                         'Sign up',
@@ -148,9 +133,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

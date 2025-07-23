@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/text_field.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 28),
-
-            // Titre Holbegram
             const Text(
               'Holbegram',
               style: TextStyle(
@@ -44,32 +43,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontSize: 50,
               ),
             ),
-
-            // Logo
             Image.asset(
               'assets/images/logo.png',
               width: 80,
               height: 60,
             ),
-
             const SizedBox(height: 28),
-
-            // Padding général
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  // Email field
                   TextFieldInput(
                     controller: emailController,
                     isPassword: false,
                     hintText: 'Email',
                     keyboardType: TextInputType.emailAddress,
                   ),
-
                   const SizedBox(height: 24),
-
-                  // Password field
                   TextFieldInput(
                     controller: passwordController,
                     isPassword: !_passwordVisible,
@@ -89,10 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                   ),
-
                   const SizedBox(height: 28),
-
-                  // Login button
                   SizedBox(
                     height: 48,
                     width: double.infinity,
@@ -103,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        // TODO: Appeler login() plus tard
+                        // login function
                       },
                       child: const Text(
                         'Log in',
@@ -111,10 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 24),
-
-                  // Forgot password
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -125,31 +109,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 24),
-
                   const Divider(thickness: 2),
-
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Don't have an account "),
-                        Text(
-                          'Sign up',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(218, 226, 37, 24),
-                          ),
-                        ),
+                        // ✅ BOUTON DE NAVIGATION CORRIGÉ
+                        SignUpButton()
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
-                  // OR separator
                   Row(
                     children: const [
                       Flexible(child: Divider(thickness: 2)),
@@ -160,10 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Flexible(child: Divider(thickness: 2)),
                     ],
                   ),
-
                   const SizedBox(height: 10),
-
-                  // Google sign in row
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -177,12 +147,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text('Sign in with Google'),
                     ],
                   ),
-
                   const SizedBox(height: 20),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ✅ Bouton séparé pour la lisibilité
+class SignUpButton extends StatelessWidget {
+  const SignUpButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SignUp()),
+        );
+      },
+      child: const Text(
+        'Sign up',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(218, 226, 37, 24),
         ),
       ),
     );
