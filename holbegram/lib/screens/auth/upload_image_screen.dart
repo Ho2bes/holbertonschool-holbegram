@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:holbegram/screens/login_screen.dart';
 import 'package:holbegram/methods/auth_methods.dart';
-import 'methods/user_storage.dart';
 
 class UploadImageScreen extends StatefulWidget {
   final String email;

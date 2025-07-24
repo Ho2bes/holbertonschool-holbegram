@@ -99,9 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text('Forgot your login details? '),
                       Text(
                         'Get help logging in',
@@ -123,8 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Flexible(child: Divider(thickness: 2)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
